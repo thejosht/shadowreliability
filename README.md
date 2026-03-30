@@ -11,6 +11,10 @@ Most text classification systems focus on accuracy alone. In practice, however, 
 
 The goal of ShadowReliability is to address that gap by building a second layer model that predicts failure risk from the behavior of the primary classifier. This allows the system to move beyond simple classification and toward reliability aware decision support.
 
+## Live Demo
+
+Hugging Face demo: [ShadowReliability Demo](https://huggingface.co/spaces/thejosht/shadowreliability-demo)
+
 ## Problem Setting
 
 This project uses a multi class healthcare administrative request classification task with the following labels:
@@ -30,7 +34,7 @@ The objective is to classify each request correctly while also identifying which
 ShadowReliability uses a two layer design:
 
 ### Main Classifier
-The primary model is a **TF-IDF witj Logistic Regression** classifier trained to predict the administrative request label.
+The primary model is a **TF-IDF with Logistic Regression** classifier trained to predict the administrative request label.
 
 ### Auxiliary Models
 To enrich reliability signals, two additional models are used:
