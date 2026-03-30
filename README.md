@@ -11,9 +11,26 @@ Most text classification systems focus on accuracy alone. In practice, however, 
 
 The goal of ShadowReliability is to address that gap by building a second layer model that predicts failure risk from the behavior of the primary classifier. This allows the system to move beyond simple classification and toward reliability aware decision support.
 
+## Key Contribution
+
+The main contribution of this project is the addition of a shadow reliability layer on top of a standard text classifier.
+
+Rather than treating all predictions equally, the system estimates which predictions are more likely to fail. This makes the project more aligned with real world deployment concerns, where uncertainty and failure awareness matter in addition to raw accuracy.
+
 ## Live Demo
 
 Hugging Face demo: [ShadowReliability Demo](https://huggingface.co/spaces/thejosht/shadowreliability-demo)
+
+## App Demo
+
+The app demo allows a user to:
+
+- enter a healthcare request
+- view the predicted class
+- view the classifier confidence
+- view shadow model risk
+- inspect class probability breakdown
+- inspect feature importance and project summary metrics
 
 ## Problem Setting
 
@@ -90,16 +107,30 @@ Key project results include:
 
 These results suggest that the shadow model captures meaningful signal about prediction risk and can help distinguish safer predictions from riskier ones.
 
-## App Demo
+## Future Improvements
 
-The Streamlit app allows a user to:
+Possible next steps:
+- stronger out of domain detection so the system can recognize unfamiliar requests more reliably
+- API and backend modularization to move from a prototype to a production ready service
+- human in the loop review workflows for high risk predictions and feedback collection
+- expanded evaluation across new domains such as IT support, insurance, and government services
 
-- enter a healthcare request
-- view the predicted class
-- view the classifier confidence
-- view shadow model risk
-- inspect class probability breakdown
-- inspect feature importance and project summary metrics
+
+## Research Context
+
+This work is related to research on selective classification, model calibration, and prediction trustworthiness.
+
+Selective classification studies how a model can keep safer predictions while rejecting or deferring riskier ones. That idea is relevant here because ShadowReliability is designed to support review decisions rather than treating every prediction as equally safe.
+
+Calibration research studies whether model confidence scores are actually trustworthy. This is important for this project because a model’s top probability alone does not always mean the prediction is truly reliable.
+
+The project is also connected to work on classifier trust and failure prediction, where a second mechanism is used to estimate whether a model’s output should be trusted. ShadowReliability applies those ideas in a practical text classification setting by using a shadow model to estimate prediction risk.
+
+### References
+
+- Geifman, Y., & El-Yaniv, R. (2017). *Selective Classification for Deep Neural Networks*.
+- Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). *On Calibration of Modern Neural Networks*.
+- Jiang, H., Kim, B., Guan, M., & Gupta, M. (2018). *To Trust Or Not To Trust A Classifier*.
 
 ## Project Structure
 
@@ -124,46 +155,3 @@ pip install -r requirements.txt
 2. Run the app
 
 streamlit run app/app.py
-
-
-## Key Contribution
-
-The main contribution of this project is the addition of a shadow reliability layer on top of a standard text classifier.
-
-Rather than treating all predictions equally, the system estimates which predictions are more likely to fail. This makes the project more aligned with real world deployment concerns, where uncertainty and failure awareness matter in addition to raw accuracy.
-
-
-## Limitations
-
-Current limitations include:
-	•	the shadow model depends on the quality of the base model derived features
-	•	evaluation is tied to the current dataset and class structure
-	•	results may not fully generalize to other domains without retraining
-	•	the current interface is still a prototype and can be extended further
-
-
-## Future Improvements
-
-Possible next steps:
-	•	stronger out of domain detection
-	•	richer calibration analysis
-	•	improved interpretability views
-	•	multi dataset evaluation
-
-
-## Research Context
-
-This work is related to research on selective classification, model calibration, and prediction trustworthiness.
-
-Selective classification studies how a model can keep safer predictions while rejecting or deferring riskier ones. That idea is relevant here because ShadowReliability is designed to support review decisions rather than treating every prediction as equally safe.
-
-Calibration research studies whether model confidence scores are actually trustworthy. This is important for this project because a model’s top probability alone does not always mean the prediction is truly reliable.
-
-The project is also connected to work on classifier trust and failure prediction, where a second mechanism is used to estimate whether a model’s output should be trusted. ShadowReliability applies those ideas in a practical text classification setting by using a shadow model to estimate prediction risk.
-
-### References
-
-- Geifman, Y., & El-Yaniv, R. (2017). *Selective Classification for Deep Neural Networks*.
-- Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). *On Calibration of Modern Neural Networks*.
-- Jiang, H., Kim, B., Guan, M., & Gupta, M. (2018). *To Trust Or Not To Trust A Classifier*.
-- Luo, Y., Liu, J., et al. (2021). *Learning to Predict Trustworthiness with Steep Slope Loss*.
